@@ -529,6 +529,21 @@
   ```
 - 对象的枚举
 
+  ```javascript
+  // for in循环理论上可以返回原型和原型链上的东西，一旦这个原型链延展到了object.prototype 上，不会打印系统的，只会打印自带的
+  for(var prop in obj) {
+    if(obj.hasOwnProperty(prop)) {
+      console.log(obj[prop]);
+    }
+  }
+  // 对象还是数组的判断
+  obj instanceof Array // 为true则是数组
+  obj.constructor // function Array() {}
+  Object.prototype.toString.call([]); // '[object Array]'
+  Object.prototype.toString.call(123); // '[object Number]'
+  Object.prototype.toString.call({}); // '[object Object]'
+  ```
+
 
 
 
