@@ -540,9 +540,115 @@
   obj instanceof Array // 为true则是数组
   obj.constructor // function Array() {}
   Object.prototype.toString.call([]); // '[object Array]'
-  Object.prototype.toString.call(123); // '[object Number]'
   Object.prototype.toString.call({}); // '[object Object]'
+   Object.prototype.toString.call(123); // '[object Number]'
+  Object.prototype.toString.call(true); // '[object Boolean]'
   ```
+- 进制
+  ```javascript
+  // 十六进制0 1 2 3 4 5 6 7 8 9 a b c d e f 
+  // 十六进制的中10是十进制的16，1f = 16 + 15 
+  // 二进制中的10是十进制的2，11 是十进制的3 
+  ```
+- auguments
+  ```javascript
+  // arguments.callee，指向函数的引用（函数自己） 
+  // function.caller，caller谁叫他，caller不能用在arguments里面 
+
+  // 100以内的阶乘
+  var num = (function (n) {
+    if(n === 1) return 1;
+    return n * arguments.callee(n - 1);
+  })(100);
+
+  function test() {
+    demo();
+  }
+  function demo () {
+    console.log(demo.caller);
+  }
+  test(); // function test() {...}
+  ```
+
+  ```javascript
+  let x = 1;
+  if(function f() {}) {
+    x += typeof f;
+  }
+  console.log(X); // '1undefined', 用括号把function f() {}转换成表达式，就被立即执行了，就找不到
+
+  undefined == null; // true
+  isNaN('100'); // false
+  parseInt('1a') == 1; // true
+  ```
+
+  ```javascript
+  // 1、函数预编译过程this —> 指向window
+  function test(c) {
+    //var this = Object.create(test.prototype);
+    //{
+    //  __proto__: test.prototype
+    //}
+    var a = 123;
+    function b() {}
+  }
+  AO{
+    arguments: [1]
+    this: window,
+    c: 1,
+    a: undefined,
+    b: function () {}
+  }
+  // 2、全局作用域里 this —> 指向window 
+  // 3、call/apply 可以改变函数运行时this指向 
+  // 4、obj.func(); // func()里面的this指向obj 
+  // bind()方法主要就是将函数绑定到某个对象，bind()会创建一个函数，函数体内的this对象的值会被绑定到传入bind()中的第一个参数的值
+  var obj = {
+    a: 123,
+    fun: function () {console.log(this.a)}
+  };
+  var test = obj.fun.bind({a: 456});
+  test(); // 456
+  ```
+
+- 克隆
+  ```javascript
+  // 浅层克隆
+  function clone (origin, target) {
+    var target = target || {};
+    for(var prop in target) {
+      target[prop] = origin[prop];
+    }
+    return target;
+  }
+  // 深层克隆（对象&数组）
+  function deepClone(origin, target) {
+    var target = target || {},
+      toStr = Object.prototype.toString,
+      arrStr = '[object, Array]';
+    for(var prop in origin) {
+      if(prop !== null && typeof origin[prop] === 'object') {
+       target[prop] = deepClone( origin[prop], toStr.call(origin[prop]) === attStr ? [] : {});
+      }else {
+        target[prop] = origin[prop];
+      }
+    }
+    return target;
+  }
+  ```
+
+- 数组
+  ```javascript
+  // 定义对象方式：自变量，构造函数，自定义的构造函数，Object.create 
+  // 定义数组的方式：
+  // var arr = [ ] ; // 数组自变量
+  // var arr = new Array (位数); // 系统提供
+  // 两者区就只有位数的情况，数组能用的方法来源于Array.prototype
+  ```
+
+
+
+
 
 
 
