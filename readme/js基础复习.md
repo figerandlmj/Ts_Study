@@ -641,10 +641,141 @@
   ```javascript
   // 定义对象方式：自变量，构造函数，自定义的构造函数，Object.create 
   // 定义数组的方式：
-  // var arr = [ ] ; // 数组自变量
-  // var arr = new Array (位数); // 系统提供
-  // 两者区就只有位数的情况，数组能用的方法来源于Array.prototype
+  // var arr = [] ; // 数组自变量
+  // var arr = new Array(位数); // 系统提供
+  // 两者区别就只有位数的情况，数组能用的方法来源于Array.prototype
+  var arr = new Array(1,2,3,4); // [1, 2, 3, 4]
+  var arr = new Array();
+  arr[10] = 'abc'; // [empty × 10, "abc"]
+
+  // 改变原数组
+  push // 末尾加
+  pop // 末尾减
+  unshift // 头部加
+  shift // 头部减
+  reverse // 逆反
+  sort // 排序，按ASC码
+    arr.sort() // 从小到大
+    arr.sort().reverse() // 从大到小
+    arr.sort(function(a, b){
+      return a - b; // 升序
+      return b - a; // 降序
+    });
+    arr.sort(function(){
+      return Math.random() - 0.5 // 乱序
+    });
+  splice // (从第几位开始，截取多少长度，在切口处添加数据)
+  // 不改变原数组
+  forEach
+    arr.forEach(function(item){
+      // ...
+    });
+  filter
+    arr.filter(function(item) {
+      return item > 5;
+    });
+  map
+    arr.map(function(item){
+      return item + 1;
+    });
+  reduce
+    arr.reduce(function(total, num){
+      return total + num;
+    }, 0);
+  reduceRight
+  slice // (从该位开始截取，截取到该位)
+    slice(1, 2)
+    slice(1) // 截取到最后
+    slice() // 截取整个数组
+  concat // 拼接
+    arr.concat(arr1);
+  join
+  toString // 相当于join(',')
+  // push方法源码
+  Array.prototype.push = function() {
+    for(var i = 0; i < arguments.length; i ++){
+      this[this.length] = arguments[i];
+    }
+    return this.length;
+  }
+
   ```
+- 类数组：像数组，但没有数组所拥有的方法
+  ```javascript
+  // arguments
+  var obj = {
+    '0': 'a',
+    '1': 'b',
+    '2': 'c',
+    'length': 3,
+    'push': Array.prototype.push,
+    'splice': Array.prototype.splice,
+  }
+  obj.push('d'); // a b c d 4
+
+  // 封装type方法
+  function type(target) {
+    var ret = typeof target;
+    var template = {
+      '[object Array]': 'array',
+      '[object Object]': 'object',
+      '[object Number]': 'number-object',
+      '[objetc String]': 'string-obejct',
+      '[object Boolean]': 'boolean-object'
+    };
+    if(target === null) {
+      return null;
+    }else if(ret === 'object') {
+      var str = Object.prototype.toString.call(target);
+      return tanplate[str];
+    }else{
+      return ret;
+    }
+  }
+
+  // 数组去重
+  Array.prototype.unique = function() {
+    var temp = {},
+      arr = [],
+      len = this.length;
+    for(var i = 0; i < len; i ++) {
+      if(!temp[this[i]]) {
+        temp[this[i]] = 'has value';
+        arr.push(this[i]);
+      }
+    }
+    return arr;
+  }
+  ```
+
+- try...catch
+  ```javascript
+  try{
+    console.log('a');
+    console.log(b);
+    console.log('c');
+  }catch(e){
+    console.log(e.name + ':' + e.message);
+  }
+  // Error.name
+  // 1. EvalError：eval()的使用与定义不一致
+  // 2. RangeError：数值越界
+  // 3. **ReferenceError：非法或不能识别的引用类型 
+  // 4. **SyntaxError：语法解析错误
+  // 5. TypeError：操作数类型错误
+  // 6. URIError：URI处理函数使用不当，引用地址错误
+  'use strict'; // 严格模式(es3.0和es5.0冲突部分用es5.0)
+  // es5.0不支持：
+  // with(obj){} 改变{}内的作用域为obj
+  // arguments.calle 指向函数的引用（函数自己）
+  // function.caller 函数在哪里被调用
+  // 变量赋值前必须声明
+  // 局部this必须被赋值，(Person.call(null/undefined) 赋值什么就是什么)
+  // 拒绝重复属性和参数
+  // eval() 可以将字符串当代码来执行，所以在es3.0中不推荐使用
+  ```
+
+  
 
 
 
