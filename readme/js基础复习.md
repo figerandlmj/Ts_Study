@@ -767,7 +767,7 @@
   'use strict'; // 严格模式(es3.0和es5.0冲突部分用es5.0)
   // es5.0不支持：
   // with(obj){} 改变{}内的作用域为obj
-  // arguments.calle 指向函数的引用（函数自己）
+  // arguments.callee 指向函数的引用（函数自己）
   // function.caller 函数在哪里被调用
   // 变量赋值前必须声明
   // 局部this必须被赋值，(Person.call(null/undefined) 赋值什么就是什么)
