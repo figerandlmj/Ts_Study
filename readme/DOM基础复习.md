@@ -160,7 +160,103 @@ Node
     setAttribute()
 
 3. 日期对象Date()
+  ```javascript
+  var date = new Date();
+  getFullYear(); // 4位数年份
+  getMonth(); // 0~11月份
+  getDate(); // 1~31日期
+  getDay(); // 0~6星期日-星期六
+  getHours(); // 0~23时
+  getMinutes(); // 0~59分
+  getSeconds(); // 0~59秒
+  getMiliseconds(); // 0~999毫秒
+  getTime(); // *1970-01-01~至今的毫秒数
+  setFullYear();
+  setMonth();
+  setDate();
+  setHours();
+  setMinutes();
+  setSeconds();
+  setMiliseconds();
+  setTime();
+  toSource();// 返回该对象的源代码
+  toString();
+  toDateString();
+  toTimeString();
 
+  ```
+4. js定时器
+  ```javascript
+  setInterval(fn, timeGap); // 定时循环器，计时不准
+  clearInterval(timer);
+  setTimeout(fn, timeGap); // 定时器
+  clearTimeout(timer);
+  ```
+5.DOM/BOM基本操作
+  ```javascript
+  // 查看滚动条滚动距离
+  function getScrollOffset(){
+    if(window.pageXOffset){
+      return {
+        x: window.pageXOffset,
+        y: window.pageYOffset
+      };
+    }else{
+      return {
+        x: document.body.scrollLeft + document.documentElement.scrollLeft,
+        y: document.body.scrollTop + document.documentElement.scrollTop
+      };
+    }
+  }
+  // 获取可视区窗口的尺寸
+  function getViewportOffset(){
+    if(window.innerWidth){
+      return {
+        w: window.innerWidth,
+        h: window.innerHeight
+      };
+    }else{
+      if(document.compatMode === "BackCompat"){//怪异模式
+        return {
+          w: document.body.clientWidth,
+          h: document.body.clientHeight
+        };
+      }else{
+        return {
+          w: document.documentElement.clientWidth,
+          h: document.documentElement.clientHeight
+        }
+      }
+    }
+  }
+
+  // 查看元素的几何尺寸
+  div.getBoundingClientRect() -> {width,height,top,right,bottom,left,...}  //兼容性好，width、height ie中没有，结果不是实时的
+  
+  div.offsetWidth/offsetHeight //视觉上的尺寸，包括padding,不报括margin
+	div.offsetLeft/offsetTop  //相对有定位的父级的位置，若没有最近父级则返回的是相对文档body
+  div.offsetParent  //返回最近的有定位的父级
+  
+  // 自动阅读
+  function autoRead(){
+    var start = document.getElementsByTagName("input")[0];
+      stop = document.getElementsByTagName("input")[1];
+    var timer,
+      key = true;
+    start.onclick = function(){
+      if(key){
+        key = false;
+        timer = setInterval(function(){
+          window.scrollBy(0,10);
+        },1000);
+      }
+    };
+    stop.onclick = function(){
+      clearInterval(timer);
+      key = true;
+    }
+  }
+  ```
   
 
 
